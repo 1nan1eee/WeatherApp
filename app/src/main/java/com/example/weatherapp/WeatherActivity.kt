@@ -143,7 +143,7 @@ class WeatherActivity : ComponentActivity() {
             val midnightTemperature = temperatures[i * 24]
             val noonTemperature = temperatures[i * 24 + 12]
 
-            // дату для текущего дня + i
+            // дата для текущего дня + i
             val date = currentDate.plusDays(i.toLong()).format(dateFormatter)
 
             selectedTemperatures.add(WeatherDay(date, midnightTemperature, noonTemperature))
