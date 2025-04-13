@@ -25,6 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".WeatherActivity"
+            android:exported="true"
+            android:label="Погода"
+            android:theme="@style/Theme.WeatherApp">
+        </activity>
     </application>
 
 </manifest>

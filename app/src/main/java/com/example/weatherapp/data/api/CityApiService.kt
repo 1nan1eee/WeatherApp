@@ -1,5 +1,6 @@
-package com.example.weatherapp
+package com.example.weatherapp.data.api
 
+import com.example.weatherapp.data.model.CityResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
