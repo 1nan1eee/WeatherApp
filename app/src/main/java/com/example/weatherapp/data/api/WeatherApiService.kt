@@ -11,6 +11,6 @@ interface WeatherApiService {
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("hourly") hourly: String = "temperature_2m",
-        @Query("forecast_days") days: Int = 16
+        @Query("forecast_days") days: Int = 10
     ): Response<WeatherResponse>
 }
