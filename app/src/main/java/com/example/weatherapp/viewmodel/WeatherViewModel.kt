@@ -2,26 +2,29 @@ package com.example.weatherapp.viewmodel
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.data.CurrentWeather
 import com.example.weatherapp.data.WeatherDay
+import com.example.weatherapp.data.WeatherItem
 import com.example.weatherapp.data.model.CityResponse
 import com.example.weatherapp.data.model.WeatherResponse
 import com.example.weatherapp.data.network.RetrofitInstance
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class WeatherViewModel : ViewModel() {
 
-    private val _weatherData = MutableLiveData<List<WeatherDay>>()
-    val weatherData: LiveData<List<WeatherDay>> get() = _weatherData
+    private val _weatherData = MutableStateFlow<List<WeatherItem>>(emptyList())
+    val weatherData: StateFlow<List<WeatherItem>> get() = _weatherData
 
-    private val _isLoading = MutableLiveData<Boolean>(false)
-    val isLoading: LiveData<Boolean> get() = _isLoading
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> get() = _isLoading
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun fetchWeatherData(cityName: String) {
@@ -61,10 +64,15 @@ class WeatherViewModel : ViewModel() {
     private fun displayWeather(weatherResponse: WeatherResponse) {
 
         val temperatures = weatherResponse.hourly.temperature_2m
-        val selectedTemperatures = mutableListOf<WeatherDay>()
+        val selectedTemperatures = mutableListOf<WeatherItem>()
 
         val currentDate = LocalDate.now()
         val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM", Locale.ENGLISH)
+
+        val currentTime = LocalTime.now()
+        val currentHour: Int = currentTime.hour
+
+        selectedTemperatures.add(CurrentWeather(temperatures[currentHour]))
 
         for (i in 0 until 10) {
             val midnightTemperature = temperatures[i * 24]

@@ -4,4 +4,4 @@ data class WeatherDay(
     val description: String,
     val midnightTemperature: Double,
     val noonTemperature: Double
-)
+) : WeatherItem

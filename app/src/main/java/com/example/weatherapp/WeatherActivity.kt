@@ -5,27 +5,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.ui.screens.WeatherScreen
 import com.example.weatherapp.viewmodel.WeatherViewModel
 
 class WeatherActivity : ComponentActivity() {
 
-    private lateinit var weatherViewModel: WeatherViewModel
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val cityName = intent.getStringExtra("CITY_NAME") ?: return@setContent
+            val weatherViewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
 
-            weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
-
-            if (weatherViewModel.weatherData.value == null) {
-                weatherViewModel.fetchWeatherData(cityName)
+            MaterialTheme {
+                Surface {
+                    WeatherScreen(cityName = "Ваш город", weatherViewModel = weatherViewModel)
+                }
             }
-
-            WeatherScreen().Display(cityName, weatherViewModel)
         }
     }
 }
